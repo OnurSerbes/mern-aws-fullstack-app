@@ -1,6 +1,4 @@
-# README
-
-## Project Overview
+# Project Overview
 
 This project is a full-stack application that utilizes AWS services for backend operations and a React frontend. The application allows users to register, log in, and manage their todos, including adding, editing, and deleting todo items. Authentication is handled using AWS Cognito, and data is stored in DynamoDB.
 
