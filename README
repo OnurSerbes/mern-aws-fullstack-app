@@ -423,4 +423,4 @@ curl -X POST https://<api-id>.execute-api.<region>.amazonaws.com/<stage>/todos -
 curl -X DELETE https://<api-id>.execute-api.<region>.amazonaws.com/<stage>/todos/<todoId> -H "Content-Type: application/json" -H "Authorization: Bearer <token>"
 ```
 
-By following this documentation, you can set up and run the full-stack application seamlessly, ensuring secure and efficient operations.
+By following this documentation, you can set up and run the full-stack application seamlessly, ensuring secure and efficient operations
