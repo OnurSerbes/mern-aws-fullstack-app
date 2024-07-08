@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListItem, ListItemText, IconButton, ListItemAvatar, Avatar, Box } from '@mui/material';
+import { ListItem, ListItemText, IconButton, ListItemAvatar, Avatar } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -22,7 +22,7 @@ const TodoItem = ({ todo, fetchTodos, setEditingTodo }) => {
   };
 
   return (
-    <ListItem className="todo-item" sx={{ display: 'flex', alignItems: 'center' }}>
+    <ListItem className="todo-item">
       <ListItemAvatar>
         {todo.image ? (
           <Avatar
@@ -37,9 +37,9 @@ const TodoItem = ({ todo, fetchTodos, setEditingTodo }) => {
       <ListItemText
         primary={todo.title}
         secondary={todo.description}
-        sx={{ flex: 1, marginRight: '16px' }}
+        sx={{ marginRight: '16px' }}
       />
-      <Box className="icon-container" sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div className="action-buttons">
         {todo.files && todo.files.map((file, index) => (
           <IconButton
             edge="end"
@@ -58,7 +58,7 @@ const TodoItem = ({ todo, fetchTodos, setEditingTodo }) => {
         <IconButton edge="end" aria-label="delete" onClick={handleDelete} style={{ padding: '4px' }}>
           <DeleteIcon />
         </IconButton>
-      </Box>
+      </div>
     </ListItem>
   );
 };

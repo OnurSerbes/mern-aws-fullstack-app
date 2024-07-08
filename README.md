@@ -44,9 +44,11 @@ The application is divided into two main parts:
 
 1. **Clone the repository:**
 
+you don't need to clone for now, not uploaded to github, this line is just added for enhance the guide
+
 ```sh
-git clone https://github.com/OnurSerbes/mern-stack-aws-todo.git
-cd mern-stack-aws-todo
+git clone https://github.com/OnurSerbes/todo-app.git 
+cd todo-app
 ```
 
 2. **Install dependencies for both client and server:**
@@ -55,6 +57,7 @@ cd mern-stack-aws-todo
 # Install server dependencies
 cd server
 npm install
+npm install dotenv
 
 # Install client dependencies
 cd ../client
@@ -144,26 +147,82 @@ The client will be running on `http://localhost:3000` and the server on `http://
 - `PUT /api/todos/:id` - Update a todo
 - `DELETE /api/todos/:id` - Delete a todo
 
+Understood. Here's the content formatted properly with GitHub README.md syntax:
+
+```markdown
 ### Database Structure
 
-The application uses MongoDB as its NoSQL database. Below is the structure of the MongoDB collections:
+The application uses MongoDB as its NoSQL database. Below is the structure of the MongoDB collections and the setup guideline:
 
-- **Users Collection (`test.users`)**:
+## MongoDB Setup
 
-  - `_id`: ObjectId
-  - `username`: String
-  - `password`: String (hashed)
+### Install MongoDB
+Follow the instructions on the [MongoDB installation guide](https://docs.mongodb.com/manual/installation/) to install MongoDB on your system.
 
-- **Todos Collection (`test.todos`)**:
-  - `_id`: ObjectId
-  - `userId`: ObjectId (reference to the user)
-  - `title`: String
-  - `description`: String
-  - `tags`: Array of Strings
-  - `image`: String (URL to the image in S3)
-  - `files`: Array of Strings (URLs to the files in S3)
-  - `createdAt`: Date
-  - `updatedAt`: Date
+### Start MongoDB
+Start the MongoDB server by running the following command in your terminal:
+
+```sh
+mongod
+```
+
+### Create a Database
+You can create a database manually using the MongoDB shell:
+
+```sh
+mongo
+use myTodoApp
+```
+
+### Create Indexes Manually
+
+To enable text search functionality, you need to create a text index on the `title` and `description` fields in the `todos` collection manually using the MongoDB shell:
+
+```sh
+db.todos.createIndex({ title: "text", description: "text" })
+```
+
+### Using MongoDB Atlas UI
+
+You can also perform these steps via MongoDB Atlas UI.
+
+#### Create a Database
+1. Navigate to your MongoDB Atlas cluster.
+2. Click on "Collections" and then "Create Database".
+3. Enter `myTodoApp` as the database name and `todos` as the collection name.
+
+#### Create Indexes in MongoDB Atlas
+
+To enable text search functionality, you need to create a text index on the `title` and `description` fields in the `todos` collection:
+
+1. Navigate to the `Indexes` tab for the `test.todos` collection.
+2. Click on the "CREATE INDEX" button.
+3. Fill in the index fields with the following JSON:
+   ```json
+   {
+     "title": "text",
+     "description": "text"
+   }
+   ```
+4. Click on "Review" and then "Create Index" to finalize the creation of the index.
+
+### Collections
+
+#### Users Collection (`test.users`)
+- `_id`: ObjectId
+- `username`: String
+- `password`: String (hashed)
+
+#### Todos Collection (`test.todos`)
+- `_id`: ObjectId
+- `userId`: ObjectId (reference to the user)
+- `title`: String
+- `description`: String
+- `tags`: Array of Strings
+- `image`: String (URL to the image in S3)
+- `files`: Array of Strings (URLs to the files in S3)
+- `createdAt`: Date
+- `updatedAt`: Date
 
 ## AWS Setup
 
@@ -171,8 +230,7 @@ The application uses MongoDB as its NoSQL database. Below is the structure of th
 
 For AWS usage, IAM and S3 services are utilized:
 
-- **IAM**:
-
+- **IAM**: 
   - Created a group called `admin1` and added a user called `developer`.
   - Generated access key and secret key for the `developer` user to enhance security.
   - This setup prevents direct usage of the root user account, ensuring a hierarchical and secure structure.
@@ -185,3 +243,4 @@ For AWS usage, IAM and S3 services are utilized:
 
 - The `developer` IAM user has limited permissions as compared to the root user, ensuring that the root account details remain secure.
 - Using IAM roles and policies, access to the S3 bucket is managed securely.
+

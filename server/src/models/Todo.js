@@ -28,4 +28,6 @@ const todoSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
+todoSchema.index({ title: 'text', description: 'text' });
+
 module.exports = mongoose.model('Todo', todoSchema);

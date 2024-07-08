@@ -84,16 +84,15 @@ button:hover {
 }
 
 .todo-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "avatar text actions";
   align-items: center;
-  padding: 8px 12px;
-  border-bottom: 1px solid #eee;
-  transition: background-color 0.3s ease;
-  margin-bottom: 10px;
-  border-radius: 4px;
+  padding: 10px;
   background-color: #fff;
-  margin: 5px 0;
-  box-sizing: border-box;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .todo-item:hover {
@@ -101,11 +100,12 @@ button:hover {
 }
 
 .todo-item img {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   object-fit: cover;
   border-radius: 4px;
   margin-right: 8px;
+  grid-area: avatar;
 }
 
 /* Flex container for inputs */
@@ -233,6 +233,16 @@ textarea {
   align-items: center;
 }
 
+.todo-item .MuiListItemText-root {
+  grid-area: text;
+}
+
+.todo-item .MuiGrid-root {
+  grid-area: actions;
+  display: flex;
+  gap: 8px;
+}
+
 .icon-container {
   display: flex;
   align-items: center;
@@ -245,4 +255,12 @@ textarea {
   justify-content: center;
   gap: 10px;
   margin-bottom: 15px;
+}
+
+/* Action buttons alignment */
+.todo-item .action-buttons {
+  grid-area: actions;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }

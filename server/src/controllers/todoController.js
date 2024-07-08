@@ -1,15 +1,39 @@
 const Todo = require('../models/Todo');
+const { validationResult } = require('express-validator');
 
 exports.getTodos = async (req, res) => {
+  const { page = 1, limit = 10, searchTerm = '' } = req.query; // Default to page 1, limit 10, and no search term
+
+  const query = { userId: req.user.userId };
+  
+  if (searchTerm) {
+    query.$text = { $search: searchTerm };
+  }
+
   try {
-    const todos = await Todo.find({ userId: req.user.userId });
-    res.json(todos);
+    const todos = await Todo.find(query)
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+    const total = await Todo.countDocuments(query);
+
+    res.json({
+      todos,
+      totalPages: Math.ceil(total / limit),
+      currentPage: Number(page),
+    });
   } catch (error) {
+    console.error('Error fetching todos:', error);
     res.status(500).json({ error: error.message });
   }
 };
 
+
 exports.createTodo = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { title, description, tags } = req.body;
   const userId = req.user.userId;
 
@@ -31,6 +55,11 @@ exports.createTodo = async (req, res) => {
 };
 
 exports.updateTodo = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { title, description, tags } = req.body;
 
   try {
@@ -51,8 +80,6 @@ exports.updateTodo = async (req, res) => {
     res.status(500).json({ error: 'Failed to update the to-do. Please try again.' });
   }
 };
-
-
 
 exports.deleteTodo = async (req, res) => {
   try {
